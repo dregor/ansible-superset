@@ -51,11 +51,12 @@ superset_allowed_extensions:
   - csv
 
 # database credentials
-superset_postgres_db_host: localhost
-superset_postgres_db_port: 5432
-superset_postgres_db_name: superset
-superset_postgres_db_user: superset
-superset_postgres_db_pass: REPLACEHS&y7834yKDSd
+superset_db_type: postgres
+superset_db_host: localhost
+superset_db_port: 5432
+superset_db_name: superset
+superset_db_user: superset
+superset_db_pass: REPLACEHS&y7834yKDSd
 
 # whether to check if the superset service is running
 superset_check_if_running: True
@@ -96,8 +97,8 @@ superset_app_name: "Superset"
 # credentials instead as using the default authentication mechanism (sudo'ing to
 # the prostgres user)
 superset_postgres_login: true
-superset_postgres_login_user: "postgres"
-superset_postgres_login_password: ""
+superset_db_login_user: "postgres"
+superset_db_login_password: ""
 
 # upload directories
 superset_upload_dir: "{{ superset_home }}/uploads/"
@@ -189,7 +190,6 @@ superset_celerybeat_schedule: |
     },
   }
 
-superset_apt_dependencies_packages: ["build-essential", "libssl-dev", "libffi-dev", "libsasl2-dev", "libldap2-dev", "libmysqlclient-dev", "python-pip", "python-psycopg2", "libpq-dev"]
 superset_pip_dependencies_packages: ["setuptools", "psycopg2-binary", "mysql", "Flask-OAuthlib", "crontab"]
 
 # Roles created by superset
@@ -200,3 +200,8 @@ superset_dashboard_position_data_limit: 65535
 
 superset_virtualenv_path: "{{ superset_home }}/.virtualenvs/{{ superset_user }}"
 superset_python_path: "{{ superset_virtualenv_path }}/lib/{{ superset_python_executable }}"
+
+# Timeouts
+superset_sqllab_timeout: 180
+superset_webserver_timeout: 180
+superset_sqllab_async_time_limit_sec: 180

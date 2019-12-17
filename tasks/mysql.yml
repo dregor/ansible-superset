@@ -1,0 +1,15 @@
+- name: Create mysql database
+  mysql_db:
+    name: "{{ superset_db_name }}"
+    login_host: "{{ superset_db_host }}"
+    login_user: "{{ superset_db_login_user }}"
+    login_password: "{{ superset_db_login_password }}"
+
+- name: Create mysql user
+  mysql_user:
+    name: "{{ superset_db_user }}"
+    password: "{{ superset_db_pass }}"
+    priv: '{{ superset_db_name }}.*:ALL'
+    login_host: "{{ superset_db_host }}"
+    login_user: "{{ superset_db_login_user }}"
+    login_password: "{{ superset_db_login_password }}"

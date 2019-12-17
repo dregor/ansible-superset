@@ -11,10 +11,13 @@ SUPERSET_WEBSERVER_PORT = {{ superset_port }}
 SECRET_KEY = '{{ superset_secret_key }}'  # noqa
 
 # The SQLAlchemy connection string.
-# SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(DATA_DIR, 'superset.db')
-# SQLALCHEMY_DATABASE_URI = 'mysql://myapp@localhost/myapp'
-SQLALCHEMY_DATABASE_URI = 'postgresql://{{ superset_postgres_db_user }}:{{ superset_postgres_db_pass }}@{{ superset_postgres_db_host }}:{{ superset_postgres_db_port }}/{{ superset_postgres_db_name }}'
-
+{% if superset_db_type == 'postgres' %}
+SQLALCHEMY_DATABASE_URI = 'postgresql://{{ superset_db_user }}:{{ superset_db_pass }}@{{ superset_db_host }}:{{ superset_db_port }}/{{ superset_db_name }}'
+{% elif superset_db_type == 'mysql' %}
+SQLALCHEMY_DATABASE_URI = 'mysql://{{ superset_db_user }}:{{ superset_db_pass }}@{{ superset_db_host }}:{{ superset_db_port }}/{{ superset_db_name }}'
+{% else %}
+SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(DATA_DIR, 'superset.db')
+{% endif %}
 # ------------------------------
 # GLOBALS FOR APP Builder
 # ------------------------------
@@ -157,3 +160,8 @@ ROBOT_PERMISSION_ROLES = {{ superset_robot_permission_roles }}
 
 # Superset dashboard position json data limit
 SUPERSET_DASHBOARD_POSITION_DATA_LIMIT = {{ superset_dashboard_position_data_limit }}
+
+# Superset timeouts
+SQLLAB_TIMEOUT = {{ superset_sqllab_timeout }}
+SUPERSET_WEBSERVER_TIMEOUT = {{ superset_webserver_timeout }}
+SQLLAB_ASYNC_TIME_LIMIT_SEC = {{ superset_sqllab_async_time_limit_sec }}

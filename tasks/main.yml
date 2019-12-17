@@ -1,4 +1,10 @@
 ---
+- include: preinstall.yml
+- include: postgres.yml
+  when: superset_db_type == 'postgres'
+  tags: database
+- include: mysql.yml
+  when: superset_db_type == 'mysql'
 - include: install.yml
 - include: config.yml
 - include: white-label.yml

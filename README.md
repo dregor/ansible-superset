@@ -10,13 +10,15 @@ By default this installs Superset version 0.28.1. To install a different version
 
 `superset_recreate_virtualenv`: Set to `True` if you'd like the role to recreate the Python virtualenv Superset is installed.
 
+`superset_db_type`: may be `mysql` ,`postgres`, `sqllite` default is `postgres`
+
 This role creates a superset user and database. To connect to the database host, set:
-- `superset_postgres_db_host`: The database host
-- `superset_postgres_login_user`: The postgres user used to create the superset database and user
-- `superset_postgres_login_password`: the password for the postgres user used to create the superset database and user
-- `superset_postgres_db_name`: The superset database name (to be created). This is the database superset will use.
-- `superset_postgres_db_user`: Superset postgres user name (to be created)
-- `superset_postgres_db_pass`: Superset postgres user password
+- `superset_db_host`: The database host
+- `superset_db_login_user`: The  user used to create the superset database and user
+- `superset_db_login_password`: the password for the  user used to create the superset database and user
+- `superset_db_name`: The superset database name (to be created). This is the database superset will use.
+- `superset_db_user`: Superset  user name (to be created)
+- `superset_db_pass`: Superset  user password
 
 ### Other Default variables are listed below
 

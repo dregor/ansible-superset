@@ -13,16 +13,17 @@
   command: "{{ superset_virtualenv_path }}/bin/fabmanager create-admin --app {{ superset_app }} --username {{ superset_username }} \
             --firstname {{ superset_firstname }}  --lastname {{ superset_lastname }}  --email {{ superset_email }} --password {{ superset_pass }}"
   environment:
-    PYTHONPATH: "{{ superset_python_path }}"
+    PYTHONPATH: "{{ superset_virtualenv_path }}"
   when: superset_version is version_compare('0.34.0', '<')
 
 - name: Create an admin user(Superset version >= 0.34.0)
   become: true
   become_user: "{{ superset_user }}"
-  command: "{{ superset_virtualenv_path }}/bin/flask fab create-admin --username {{ superset_username }} --firstname {{ superset_firstname }} \
-            --lastname {{ superset_lastname }}  --email {{ superset_email }} --password {{ superset_pass }}"
+  command: >
+            {{ superset_virtualenv_path }}/bin/flask fab create-admin --username {{ superset_username }} --firstname {{ superset_firstname }} 
+            --lastname {{ superset_lastname }}  --email {{ superset_email }} --password {{ superset_pass }}
   environment:
-    PYTHONPATH: "{{ superset_python_path }}"
+    PYTHONPATH: "{{ superset_virtualenv_path }}"
     FLASK_APP: "{{ superset_app }}"
   when: superset_version is version_compare('0.34.0', '>=')
 
@@ -31,14 +32,15 @@
   become_user: "{{ superset_user }}"
   command: "{{ superset_virtualenv_path }}/bin/superset db upgrade"
   environment:
-    PYTHONPATH: "{{ superset_python_path }}"
+    PYTHONPATH: "{{ superset_virtualenv_path }}"
 
 - name: Load superset examples.
   become: true
   become_user: "{{ superset_user }}"
   command: "{{ superset_virtualenv_path }}/bin/superset load_examples"
+  ignore_errors: yes
   environment:
-    PYTHONPATH: "{{ superset_python_path }}"
+    PYTHONPATH: "{{ superset_virtualenv_path }}"
   when: superset_load_examples
 
 - name: Superset init.
@@ -46,7 +48,7 @@
   become_user: "{{ superset_user }}"
   command: "{{ superset_virtualenv_path }}/bin/superset init"
   environment:
-    PYTHONPATH: "{{ superset_python_path }}"
+    PYTHONPATH: "{{ superset_virtualenv_path }}"
 
 - name: Create superset systemd service
   template:

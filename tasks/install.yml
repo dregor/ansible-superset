@@ -11,15 +11,6 @@
     home: "{{ superset_home }}"
     create_home: yes
 
-- include_tasks: "install-{{ superset_python_executable }}.yml"
-
-- name: Ensure dependencies are installed
-  apt:
-    pkg: "{{ superset_apt_dependencies_packages }}"
-    state: latest
-    update_cache: yes
-    cache_valid_time: 600
-
 - name: Delete the Superset virtualenv directory
   file:
     state: absent
@@ -62,42 +53,6 @@
     virtualenv: "{{ superset_virtualenv_path }}"
     virtualenv_python: "{{ superset_python_executable }}"
   when: superset_enable_cors
-
-- block:
-  - name: Create postgres database
-    postgresql_db:
-      name: "{{ superset_postgres_db_name }}"
-      login_host: "{{ superset_postgres_db_host }}"
-      login_user: "{{ superset_postgres_login_user }}"
-      login_password: "{{ superset_postgres_login_password }}"
-    tags: [ database ]
-
-  - name: Create postgres user
-    postgresql_user:
-      name: "{{ superset_postgres_db_user }}"
-      password: "{{ superset_postgres_db_pass }}"
-      encrypted: true
-      db: "{{ superset_postgres_db_name }}"
-      login_host: "{{ superset_postgres_db_host }}"
-      login_user: "{{ superset_postgres_login_user }}"
-      login_password: "{{ superset_postgres_login_password }}"
-    tags: [ database ]
-  when: superset_postgres_login == true
-
-- block:
-  - name: Create postgres database
-    postgresql_db:
-      name: "{{ superset_postgres_db_name }}"
-    tags: [ database ]
-
-  - name: Create postgres user
-    postgresql_user:
-      name: "{{ superset_postgres_db_user }}"
-      password: "{{ superset_postgres_db_pass }}"
-      encrypted: true
-      db: "{{ superset_postgres_db_name }}"
-    tags: [ database ]
-  when: superset_postgres_login == false
 
 - name: Install superset from pypi
   become: true
