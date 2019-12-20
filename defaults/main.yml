@@ -190,7 +190,7 @@ superset_celerybeat_schedule: |
     },
   }
 
-superset_pip_dependencies_packages: ["setuptools", "psycopg2-binary", "mysql", "Flask-OAuthlib", "crontab"]
+superset_pip_dependencies_packages: ["setuptools", "psycopg2-binary", "mysql", "Flask-OAuthlib", "crontab", "redis"]
 
 # Roles created by superset
 superset_robot_permission_roles: ['Public', 'Gamma', 'Alpha', 'Admin', 'sql_lab']
